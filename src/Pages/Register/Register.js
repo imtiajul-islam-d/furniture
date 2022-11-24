@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
+  const {createUserEmail, updateUser} = useContext(AuthContext)
+  const navigate = useNavigate()
   const {
     register,
     formState: { errors },
@@ -17,9 +21,45 @@ const Register = () => {
     const email = data.email;
     const password = data.password;
     const accountRole = data.accountRole;
-    const profilePicture = data.pp
-    console.log(email, password, name, accountRole, profilePicture);
+    const updatedInfo = {
+      displayName: name
+    }
+    // create user firebase
+    createUserEmail(email, password)
+    .then(result => {
+      console.log(result.user);
+      updateUser(updatedInfo)
+      .then(result => {
+        saveUser(name, email, accountRole)
+        reset()
+      })
+      .then(() => {})
+    })
+    .catch(error => setRegisterError(error.message))
+
   };
+  const saveUser = (name, email, acc) => {
+    const user = {
+      name,
+      email,
+      acc, 
+      verified: false
+    };
+    fetch('http://localhost:5000/users', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.acknowledged === true){
+        navigate('/login')
+        toast.success("Successfully registered, Please login")
+      }
+    })
+  }
   return (
     <div>
       <section className="min-h-screen flex items-center justify-center">
@@ -67,7 +107,7 @@ const Register = () => {
                 })}
                 >
                 <option defaultChecked>
-                  Buyer
+                  User
                 </option>
                 <option>Seller</option>
               </select>
@@ -76,7 +116,7 @@ const Register = () => {
                   {errors.accountRole?.message}
                 </p>
               )}
-              <label className="label">
+              {/* <label className="label">
                 <span className="label-text">Choose a profile picture</span>
               </label>
               <input 
@@ -90,7 +130,7 @@ const Register = () => {
                 <p className="text-red-700" role="alert">
                   {errors.pp?.message}
                 </p>
-              )}
+              )} */}
               <label className="label">
                 <span className="label-text">Password</span>
               </label>

@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
 import {
+  createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -20,7 +21,7 @@ const AuthProvider = ({ children }) => {
   // registration starting
   const createUserEmail = (email, password) => {
     setLoadingState(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
   };
   // registration ending
   // update starting
