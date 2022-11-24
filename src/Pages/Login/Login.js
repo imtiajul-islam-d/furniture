@@ -25,7 +25,7 @@ const Login = () => {
   };
   return (
     <section className="min-h-screen flex items-center justify-center">
-      <div className="shadow-md p-5 max-w-xl">
+      <div className="shadow-md p-5 lg:min-w-sm">
         <h2 className="text-center text-3xl mb-3">Login</h2>
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="form-control w-full">
@@ -36,7 +36,7 @@ const Login = () => {
               className="input input-bordered w-full"
               type="email"
               {...register("email", {
-                required: "Email Address is required",
+                required: "Please input a valid email address",
               })}
             />
             {errors.email && (
@@ -54,7 +54,7 @@ const Login = () => {
                 required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: "Minimum six characters needed",
+                  message: "Password should be minimum six characters",
                 },
               })}
             />
@@ -66,12 +66,11 @@ const Login = () => {
             <Link className="mb-2">Forgot Password?</Link>
           </div>
           {loginError && <p className="text-red-700">{loginError}</p>}
-          {/* <p>{data}</p> */}
           <input className="btn btn-primary w-full my-3 text-white" type="submit" />
         </form>
         <p className="text-center my-3">
           New to this site?{" "}
-          <Link to="/signup" className="text-primary">
+          <Link to="/register" className="text-primary">
             Create new account
           </Link>
         </p>
