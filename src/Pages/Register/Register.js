@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthProvider";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
-  const {createUserEmail, updateUser} = useContext(AuthContext)
+  const {createUserEmail, updateUser, logOut} = useContext(AuthContext)
   const navigate = useNavigate()
   const {
     register,
@@ -27,7 +27,6 @@ const Register = () => {
     // create user firebase
     createUserEmail(email, password)
     .then(result => {
-      console.log(result.user);
       updateUser(updatedInfo)
       .then(result => {
         saveUser(name, email, accountRole)
@@ -55,6 +54,7 @@ const Register = () => {
     .then(res => res.json())
     .then(data => {
       if(data.acknowledged === true){
+        logOut().then(() => {}).catch(() => {})
         navigate('/login')
         toast.success("Successfully registered, Please login")
       }
