@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
+import { AuthContext } from "../../context/AuthProvider";
 
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false)
+  const {user, loadingState} = useContext(AuthContext)
+  const userName = user?.displayName
   const {
     register,
     formState: { errors },
@@ -14,6 +17,9 @@ const AddAProduct = () => {
 
   // const imageHostKey = process.env.REACT_APP_imagebb_key;
   const imageHostKey = "4d0a30ae8dcdfa6967e6c431234d0065"
+  if(loadingState){
+    return <Loader></Loader>
+  }
   const handleAddProduct = (data) => {
     setLoading(true)
     const title = data.title;
@@ -34,6 +40,7 @@ const AddAProduct = () => {
     const mobile = data.mobile;
     const condition = data.condition;
     const description = data.description;
+    
     // upload the image
     const image = data.image[0]
     const formData = new FormData()
@@ -46,9 +53,31 @@ const AddAProduct = () => {
     .then(res => res.json()
     .then(imageData => {
       setLoading(false)
-      console.log(imageData)
+      if(imageData.success){
+        setLoading(true)
+        const product = {
+          title,
+          name,
+          categoryId: category,
+          productLocation,
+          originalPrice,
+          resalePrice,
+          purchaseYear,
+          yearOfUse,
+          condition,
+          sellerName: userName,
+          mobile,
+          verified: false,
+          description,
+          sold: false,
+          ad: false,
+          postedDate: new Date(),
+          productImage: imageData?.data?.url,
+          reported: false
+        }
+        // post data into the database
+      }
     }))
-    console.log(image);
     // const form = event.target;
     // const title = form.productTitle.value;
     // const name = form.productName.value;
