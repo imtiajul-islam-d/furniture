@@ -19,7 +19,7 @@ const Nav = () => {
   if (loadingState || isLoading) {
     return <Loader></Loader>
   }
-  let role = accRole[0].acc;
+  let role = accRole[0]?.acc;
   // check account role ending
   const menuItems = (
     <React.Fragment>
@@ -37,6 +37,11 @@ const Nav = () => {
       {role === "Seller" && (
         <li>
           <Link>Seller</Link>
+        </li>
+      )}
+      {role === "Admin" && (
+        <li>
+          <Link>Admin</Link>
         </li>
       )}
     </React.Fragment>
