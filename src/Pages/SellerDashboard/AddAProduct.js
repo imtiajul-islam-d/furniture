@@ -1,13 +1,16 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
 
 const AddAProduct = () => {
-  const [loading, setLoading] = useState(false)
-  const {user, loadingState} = useContext(AuthContext)
-  const userName = user?.displayName
+  const [loading, setLoading] = useState(false);
+  const { user, loadingState } = useContext(AuthContext);
+  const navigate = useNavigate()
+  const userName = user?.displayName;
+  const userEmail = user?.email;
   const {
     register,
     formState: { errors },
@@ -16,12 +19,12 @@ const AddAProduct = () => {
   } = useForm();
 
   // const imageHostKey = process.env.REACT_APP_imagebb_key;
-  const imageHostKey = "4d0a30ae8dcdfa6967e6c431234d0065"
-  if(loadingState){
-    return <Loader></Loader>
+  const imageHostKey = "4d0a30ae8dcdfa6967e6c431234d0065";
+  if (loadingState) {
+    return <Loader></Loader>;
   }
   const handleAddProduct = (data) => {
-    setLoading(true)
+    setLoading(true);
     const title = data.title;
     const name = data.productName;
     let category = data.productCategory;
@@ -40,44 +43,63 @@ const AddAProduct = () => {
     const mobile = data.mobile;
     const condition = data.condition;
     const description = data.description;
-    
+
     // upload the image
-    const image = data.image[0]
-    const formData = new FormData()
-    formData.append("image", image)
-    const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
+    const image = data.image[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
     fetch(url, {
       method: "POST",
-      body: formData
-    })
-    .then(res => res.json()
-    .then(imageData => {
-      setLoading(false)
-      if(imageData.success){
-        setLoading(true)
-        const product = {
-          title,
-          name,
-          categoryId: category,
-          productLocation,
-          originalPrice,
-          resalePrice,
-          purchaseYear,
-          yearOfUse,
-          condition,
-          sellerName: userName,
-          mobile,
-          verified: false,
-          description,
-          sold: false,
-          ad: false,
-          postedDate: new Date(),
-          productImage: imageData?.data?.url,
-          reported: false
+      body: formData,
+    }).then((res) =>
+      res.json().then((imageData) => {
+        setLoading(false);
+        if (imageData.success) {
+          setLoading(true);
+          const product = {
+            title,
+            name,
+            categoryId: category,
+            productLocation,
+            originalPrice,
+            resalePrice,
+            purchaseYear,
+            yearOfUse,
+            condition,
+            sellerName: userName,
+            mobile,
+            sellerEmail: userEmail,
+            verified: false,
+            description,
+            sold: false,
+            ad: false,
+            postedDate: new Date(),
+            productImage: imageData?.data?.url,
+            reported: false,
+          };
+          // post data into the database
+          fetch(`http://localhost:5000/products?email=${user.email}`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              //JWT remaining
+            },
+            body: JSON.stringify(product),
+          })
+          .then(res => res.json())
+          .then(result => {
+            setLoading(false)
+            if(result?.acknowledged){
+              toast.success("Product successfully added")
+              navigate('/')
+              reset()
+            }
+            console.log(result)
+          })
         }
-        // post data into the database
-      }
-    }))
+      })
+    );
     // const form = event.target;
     // const title = form.productTitle.value;
     // const name = form.productName.value;
@@ -100,8 +122,8 @@ const AddAProduct = () => {
 
     // console.log(image);
   };
-  if(loading){
-    return <Loader></Loader>
+  if (loading) {
+    return <Loader></Loader>;
   }
   return (
     <div className="container mx-auto p-5 my-5">
