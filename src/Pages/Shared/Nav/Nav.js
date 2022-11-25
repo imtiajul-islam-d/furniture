@@ -1,11 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
-// import AuthProvider from "../../../context/AuthProvider";
+import Loader from '../../../components/Loader//Loader'
 
 const Nav = () => {
   // const {user} = useContext(AuthProvider)
-  const {} = useContext(AuthContext)
+  const { user, loadingState } = useContext(AuthContext);
+  const email = user?.email;
+  // check account role starting
+  const { isLoading, data: accRole } = useQuery({
+    queryKey: ["accRole", email],
+    queryFn: () =>
+      fetch(`http://localhost:5000/user/specification?email=${email}`).then(
+        (res) => res.json()
+      ),
+  });
+  if (loadingState || isLoading) {
+    return <Loader></Loader>
+  }
+  let role = accRole[0].acc;
+  // check account role ending
   const menuItems = (
     <React.Fragment>
       <li>
@@ -14,9 +29,16 @@ const Nav = () => {
       <li>
         <Link to="/blog">Blog</Link>
       </li>
-      {/* {
-        user?.uid?
-      } */}
+      {role === "User" && (
+        <li>
+          <Link>User</Link>
+        </li>
+      )}
+      {role === "Seller" && (
+        <li>
+          <Link>Seller</Link>
+        </li>
+      )}
     </React.Fragment>
   );
   return (
@@ -53,7 +75,15 @@ const Nav = () => {
           <ul className="menu menu-horizontal p-0">{menuItems}</ul>
         </div>
         <div className="navbar-end">
-          <Link className="btn btn-primary text-secondary" to='/login'>Login</Link>
+          {user?.uid ? (
+            <Link className="btn btn-primary text-secondary" >
+              Logout
+            </Link>
+          ) : (
+            <Link className="btn btn-primary text-secondary" to="/login">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </section>
