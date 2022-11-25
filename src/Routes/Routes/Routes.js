@@ -12,6 +12,7 @@ import PrivetRoute from "../PrivetRoute/PrivetRoute";
 import AdminRoute from '../AdminRoute/AdminRoute'
 import SellerRoute from '../SellerRoute/SellerRoute'
 import UserRoute from '../UserRoute/UserRoute'
+import AddAProduct from '../../Pages/SellerDashboard/AddAProduct'
 
 const router = createBrowserRouter([
     {
@@ -41,12 +42,19 @@ const router = createBrowserRouter([
             },
             {
                 path: '/seller',
-                element: <PrivetRoute><SellerRoute><SellerDashboard></SellerDashboard></SellerRoute></PrivetRoute>
+                element: <PrivetRoute><SellerRoute><SellerDashboard></SellerDashboard></SellerRoute></PrivetRoute>,
+                children: [
+                    {
+                        path: '/seller/addproduct',
+                        element: <PrivetRoute><SellerRoute> <AddAProduct></AddAProduct></SellerRoute></PrivetRoute>
+                    }
+                ]
             },
             {
                 path: '/user',
                 element: <PrivetRoute><UserRoute><UserDashboard></UserDashboard></UserRoute></PrivetRoute>
-            }
+            },
+           
         ]
     }
 ])
