@@ -7,14 +7,16 @@ import { AuthContext } from "../../context/AuthProvider";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
-  const {createUserEmail, updateUser, logOut} = useContext(AuthContext)
-  const navigate = useNavigate()
+  const { createUserEmail, updateUser, googleLogin, logOut, setLoadingState } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm();
+  // register the user with email and password start
   const handleRegister = (data) => {
     setRegisterError("");
     const name = data.name;
@@ -22,44 +24,76 @@ const Register = () => {
     const password = data.password;
     const accountRole = data.accountRole;
     const updatedInfo = {
-      displayName: name
-    }
+      displayName: name,
+    };
     // create user firebase
     createUserEmail(email, password)
-    .then(result => {
-      updateUser(updatedInfo)
-      .then(result => {
-        saveUser(name, email, accountRole)
-        reset()
+      .then((result) => {
+        updateUser(updatedInfo)
+          .then((result) => {
+            saveUser(name, email, accountRole);
+            reset();
+          })
+          .then(() => {});
       })
-      .then(() => {})
-    })
-    .catch(error => setRegisterError(error.message))
-
+      .catch((error) => setRegisterError(error.message));
   };
+  // register the user with email and password end
+  const handleGoogleRegister = () => {
+    googleLogin()
+      .then((result) => {
+        const user = result.user;
+        const name = user.displayName;
+        const email = user.email;
+        const acc = "User";
+        // check user
+        fetch(`http://localhost:5000/user/specification?email=${email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data[0]?._id) {
+              toast.error("You are already registered! Please login")
+              logOut().then(()=>{}).catch(()=>{})
+              navigate('/login')
+            } else {
+              saveUser(name, email, acc);
+            }
+          });
+      })
+      .catch((error) => {
+        setRegisterError(error.message);
+        setLoadingState(false);
+      });
+  };
+  // check user
+  // const checkUser = (email) => {
+
+  // }
+  // save user info to the database
   const saveUser = (name, email, acc) => {
     const user = {
       name,
       email,
-      acc, 
-      verified: false
+      acc,
+      verified: false,
     };
-    fetch('http://localhost:5000/users', {
+    fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     })
-    .then(res => res.json())
-    .then(data => {
-      if(data.acknowledged === true){
-        logOut().then(() => {}).catch(() => {})
-        navigate('/login')
-        toast.success("Successfully registered, Please login")
-      }
-    })
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged === true) {
+          logOut()
+            .then(() => {})
+            .catch(() => {});
+          navigate("/login");
+          toast.success("Successfully registered, Please login");
+        }
+      });
+  };
   return (
     <div>
       <section className="min-h-screen flex items-center justify-center">
@@ -100,15 +134,13 @@ const Register = () => {
               <label className="label">
                 <span className="label-text">Account type</span>
               </label>
-              <select 
+              <select
                 className="select select-bordered w-full"
                 {...register("accountRole", {
-                    required: "Please select one"
+                  required: "Please select one",
                 })}
-                >
-                <option defaultChecked>
-                  User
-                </option>
+              >
+                <option defaultChecked>User</option>
                 <option>Seller</option>
               </select>
               {errors.accountRole && (
@@ -164,7 +196,10 @@ const Register = () => {
             </Link>
           </p>
           <div className="divider">OR</div>
-          <Link className="btn border w-full bg-secondary text-black my-2 hover:bg-primary hover:text-white text-2xl">
+          <Link
+            onClick={handleGoogleRegister}
+            className="btn border w-full bg-secondary text-black my-2 hover:bg-primary hover:text-white text-2xl"
+          >
             <FaGoogle></FaGoogle>
           </Link>
         </div>

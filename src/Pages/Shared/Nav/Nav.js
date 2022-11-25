@@ -6,7 +6,7 @@ import Loader from '../../../components/Loader//Loader'
 
 const Nav = () => {
   // const {user} = useContext(AuthProvider)
-  const { user, loadingState } = useContext(AuthContext);
+  const { user, loadingState, logOut} = useContext(AuthContext);
   const email = user?.email;
   // check account role starting
   const { isLoading, data: accRole } = useQuery({
@@ -21,6 +21,10 @@ const Nav = () => {
   }
   let role = accRole[0]?.acc;
   // check account role ending
+  // handle logout
+  const handleLogout = () => {
+    logOut().then(()=>{})
+  }
   const menuItems = (
     <React.Fragment>
       <li>
@@ -81,7 +85,7 @@ const Nav = () => {
         </div>
         <div className="navbar-end">
           {user?.uid ? (
-            <Link className="btn btn-primary text-secondary" >
+            <Link className="btn btn-primary text-secondary" onClick={handleLogout}>
               Logout
             </Link>
           ) : (
