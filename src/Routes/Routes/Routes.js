@@ -1,10 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../../Layout/Main";
 import Blog from "../../Pages/Blog/Blog";
+import AdminDashboard from "../../Pages/Dashboard/AdminDashboard";
+import SellerDashboard from "../../Pages/Dashboard/SellerDashboard";
+import UserDashboard from "../../Pages/Dashboard/UserDashboard";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
 import Register from "../../Pages/Register/Register";
 import Error from "../../Pages/Shared/Error/Error";
+import PrivetRoute from "../PrivetRoute/PrivetRoute";
+import AdminRoute from '../AdminRoute/AdminRoute'
+import SellerRoute from '../SellerRoute/SellerRoute'
+import UserRoute from '../UserRoute/UserRoute'
 
 const router = createBrowserRouter([
     {
@@ -27,6 +34,18 @@ const router = createBrowserRouter([
             {
                 path: '/register',
                 element: <Register></Register>
+            },
+            {
+                path: '/admin',
+                element:<PrivetRoute> <AdminRoute><AdminDashboard> </AdminDashboard></AdminRoute></PrivetRoute>
+            },
+            {
+                path: '/seller',
+                element: <PrivetRoute><SellerRoute><SellerDashboard></SellerDashboard></SellerRoute></PrivetRoute>
+            },
+            {
+                path: '/user',
+                element: <PrivetRoute><UserRoute><UserDashboard></UserDashboard></UserRoute></PrivetRoute>
             }
         ]
     }

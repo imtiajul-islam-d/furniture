@@ -11,7 +11,7 @@ const Login = () => {
   // navigation start
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.form?.pathname || "/";
+  const from = location.state?.from?.pathname || "/";
   // navigation end
   // hook form start
   const {
@@ -28,7 +28,7 @@ const Login = () => {
     .then(result => {
       reset()
       toast.success("Login Successful")
-      navigate('/')
+      navigate(from, {replace: true})
     })
     .catch(error => setLoginError(error.message))
   };
@@ -43,7 +43,7 @@ const Login = () => {
       .then(data => {
         if(data[0]?._id){
           toast.success("Login successful")
-          navigate('/')
+          navigate(from, {replace: true})
         }else{
           logOut().then(() => {}).catch(()=> {})
           toast.error("You are not registered!! Please signup...")
@@ -56,29 +56,6 @@ const Login = () => {
       setLoadingState(false)
     })
   }
-  // save google user to the database
-  // const saveUser = (name, email, acc) => {
-  //   const user = {
-  //     name,
-  //     email,
-  //     acc, 
-  //     verified: false
-  //   };
-  //   fetch('http://localhost:5000/users', {
-  //     method: "POST",
-  //     headers: {
-  //       "content-type": "application/json"
-  //     },
-  //     body: JSON.stringify(user)
-  //   })
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     if(data.acknowledged === true){
-  //       // navigate('/home')
-  //       toast.success("Login successful")
-  //     }
-  //   })
-  // }
   return (
     <section className="min-h-screen flex items-center justify-center">
       <div className="shadow-md p-5 lg:min-w-sm">

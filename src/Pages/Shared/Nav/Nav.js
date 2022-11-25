@@ -35,17 +35,17 @@ const Nav = () => {
       </li>
       {role === "User" && (
         <li>
-          <Link>User</Link>
+          <Link to='/user'>Dashboard</Link>
         </li>
       )}
       {role === "Seller" && (
         <li>
-          <Link>Seller</Link>
+          <Link to='seller'>Dashboard</Link>
         </li>
       )}
       {role === "Admin" && (
         <li>
-          <Link>Admin</Link>
+          <Link to='/admin'>Dashboard</Link>
         </li>
       )}
     </React.Fragment>
