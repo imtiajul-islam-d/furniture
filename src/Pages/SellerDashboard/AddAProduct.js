@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthProvider";
 
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
-  const { user, loadingState } = useContext(AuthContext);
+  const { user, loadingState, logOut } = useContext(AuthContext);
   const navigate = useNavigate()
   const userName = user?.displayName;
   const userEmail = user?.email;
@@ -79,48 +79,31 @@ const AddAProduct = () => {
             reported: false,
           };
           // post data into the database
-          fetch(`http://localhost:5000/products?email=${user.email}`, {
+          fetch(`http://localhost:5000/products`, {
             method: "POST",
             headers: {
               "content-type": "application/json",
-              //JWT remaining
+              authorization: `bearer ${localStorage.getItem('furniture')}`
             },
             body: JSON.stringify(product),
           })
           .then(res => res.json())
           .then(result => {
+            if(result.message){
+              logOut().then(() => {}).then(() => {})
+              return toast.error('You do not have permission to add products. Please login')
+             
+            }
             setLoading(false)
             if(result?.acknowledged){
               toast.success("Product successfully added")
-              navigate('/')
+              navigate('/seller')
               reset()
             }
-            console.log(result)
           })
         }
       })
     );
-    // const form = event.target;
-    // const title = form.productTitle.value;
-    // const name = form.productName.value;
-    // let category = form.productCategory.value;
-    // if(category === 'Minimalism'){
-    //   category = 1
-    // }else if(category === 'Industrial'){
-    //   category = 2
-    // }else if(category === 'Bohemian'){
-    //   category = 3
-    // }
-    // const location = form.productLocation.value;
-    // const originalPrice = form.productOriginalPrice.value;
-    // const resalePrice = form.productResalePrice.value;
-    // const purchaseYear = form.productPurchaseYear.value;
-    // const usingYears = form.usingDuration.value;
-    // const productCondition = form.productCondition.value;
-    // const description = form.productDescription.value;
-    // const image = form.productImage.value
-
-    // console.log(image);
   };
   if (loading) {
     return <Loader></Loader>;

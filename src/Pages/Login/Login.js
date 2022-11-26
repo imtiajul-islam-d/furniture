@@ -6,7 +6,8 @@ import { AuthContext } from "../../context/AuthProvider";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const {emailLogin, googleLogin, logOut, setLoadingState} = useContext(AuthContext)
+  const { emailLogin, googleLogin, logOut, setLoadingState } =
+    useContext(AuthContext);
   const [loginError, setLoginError] = useState("");
   // navigation start
   const location = useLocation();
@@ -25,37 +26,57 @@ const Login = () => {
     const email = data.email;
     const password = data.password;
     emailLogin(email, password)
-    .then(result => {
-      reset()
-      toast.success("Login Successful")
-      navigate(from, {replace: true})
-    })
-    .catch(error => setLoginError(error.message))
+      .then((result) => {
+        // jwt token
+        fetch(`http://localhost:5000/jwt?email=${email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.accessToken) {
+              localStorage.setItem("furniture", data.accessToken);
+              reset();
+              toast.success("Login Successful");
+              navigate(from, { replace: true });
+            }
+          });
+        // jwt token
+      })
+      .catch((error) => setLoginError(error.message));
   };
   // handle google login
   const handleGoogleLogin = () => {
     googleLogin()
-    .then(result => {
-      const user = result.user;
-      const email = user.email;
-      fetch(`http://localhost:5000/user/specification?email=${email}`)
-      .then(res => res.json())
-      .then(data => {
-        if(data[0]?._id){
-          toast.success("Login successful")
-          navigate(from, {replace: true})
-        }else{
-          logOut().then(() => {}).catch(()=> {})
-          toast.error("You are not registered!! Please signup...")
-          navigate('/register')
-        }
+      .then((result) => {
+        const user = result.user;
+        const email = user.email;
+        fetch(`http://localhost:5000/user/specification?email=${email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data[0]?._id) {
+              // jwt token
+              fetch(`http://localhost:5000/jwt?email=${email}`)
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.accessToken) {
+                    localStorage.setItem("furniture", data.accessToken);
+                    toast.success("Login successful");
+                    navigate(from, { replace: true });
+                  }
+                });
+              // jwt token
+            } else {
+              logOut()
+                .then(() => {})
+                .catch(() => {});
+              toast.error("You are not registered!! Please signup...");
+              navigate("/register");
+            }
+          });
       })
-    })
-    .catch(error => {
-      setLoginError(error.message)
-      setLoadingState(false)
-    })
-  }
+      .catch((error) => {
+        setLoginError(error.message);
+        setLoadingState(false);
+      });
+  };
   return (
     <section className="min-h-screen flex items-center justify-center">
       <div className="shadow-md p-5 lg:min-w-sm">
@@ -99,7 +120,10 @@ const Login = () => {
             <Link className="mb-2">Forgot Password?</Link>
           </div>
           {loginError && <p className="text-red-700">{loginError}</p>}
-          <input className="btn btn-primary w-full my-3 text-white" type="submit" />
+          <input
+            className="btn btn-primary w-full my-3 text-white"
+            type="submit"
+          />
         </form>
         <p className="text-center my-3">
           New to this site?{" "}
@@ -108,7 +132,10 @@ const Login = () => {
           </Link>
         </p>
         <div className="divider">OR</div>
-        <Link onClick={handleGoogleLogin} className="btn border w-full bg-secondary text-black my-2 hover:bg-primary hover:text-white text-2xl">
+        <Link
+          onClick={handleGoogleLogin}
+          className="btn border w-full bg-secondary text-black my-2 hover:bg-primary hover:text-white text-2xl"
+        >
           <FaGoogle></FaGoogle>
         </Link>
       </div>

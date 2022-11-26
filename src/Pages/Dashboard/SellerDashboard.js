@@ -20,16 +20,16 @@ const SellerDashboard = () => {
         <ul className="menu p-4 w-2/3 lg:w-80 bg-gray-300 text-base-content">
           {/* <!-- Sidebar content here --> */}
           <label
-          htmlFor="sellerDrawer"
-          className="btn btn-primary drawer-button lg:hidden"
-        >
-          X
-        </label>
+            htmlFor="sellerDrawer"
+            className="btn btn-primary drawer-button lg:hidden"
+          >
+            X
+          </label>
           <li>
-            <Link to='/seller/addproduct'>Add a product</Link>
+            <Link to='/seller'>My Products</Link>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <Link to="/seller/addproduct">Add a product</Link>
           </li>
         </ul>
       </div>
