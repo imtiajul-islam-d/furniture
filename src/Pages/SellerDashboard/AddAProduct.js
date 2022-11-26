@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
 
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
   const { user, loadingState, logOut } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const userName = user?.displayName;
   const userEmail = user?.email;
   const {
@@ -43,6 +43,11 @@ const AddAProduct = () => {
     const mobile = data.mobile;
     const condition = data.condition;
     const description = data.description;
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, "0");
+    let mm = String(today.getMonth() + 1).padStart(2, "0"); 
+    let yyyy = today.getFullYear();
+    today = mm + "/" + dd + "/" + yyyy;
 
     // upload the image
     const image = data.image[0];
@@ -75,7 +80,7 @@ const AddAProduct = () => {
             description,
             sold: false,
             ad: false,
-            postedDate: new Date(),
+            postedDate: today,
             productImage: imageData?.data?.url,
             reported: false,
           };
@@ -84,24 +89,27 @@ const AddAProduct = () => {
             method: "POST",
             headers: {
               "content-type": "application/json",
-              authorization: `bearer ${localStorage.getItem('furniture')}`
+              authorization: `bearer ${localStorage.getItem("furniture")}`,
             },
             body: JSON.stringify(product),
           })
-          .then(res => res.json())
-          .then(result => {
-            if(result.message){
-              logOut().then(() => {}).then(() => {})
-              return toast.error('You do not have permission to add products. Please login')
-             
-            }
-            setLoading(false)
-            if(result?.acknowledged){
-              toast.success("Product successfully added")
-              navigate('/seller')
-              reset()
-            }
-          })
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.message) {
+                logOut()
+                  .then(() => {})
+                  .then(() => {});
+                return toast.error(
+                  "You do not have permission to add products. Please login"
+                );
+              }
+              setLoading(false);
+              if (result?.acknowledged) {
+                toast.success("Product successfully added");
+                navigate("/seller");
+                reset();
+              }
+            });
         }
       })
     );

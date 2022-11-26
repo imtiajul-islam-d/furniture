@@ -129,9 +129,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/category/:id",
-        // loader: async ({ params }) => {
-        //   return fetch(`http://localhost:5000/category/${params.id}`);
-        // },
+        loader: async ({ params }) => {
+          return fetch(`http://localhost:5000/category/${params.id}`, {
+            headers: {
+              authorization: `bearer ${localStorage.getItem("furniture")}`,
+            },
+          });
+        },
         element: (
           <PrivetRoute>
             <CategoryProducts></CategoryProducts>

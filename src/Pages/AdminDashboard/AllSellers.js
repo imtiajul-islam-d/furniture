@@ -103,7 +103,7 @@ const AllSellers = () => {
                   <button onClick={() => handleVerification(seller)} className="btn btn-primary btn-xs">Verify</button>
                 </th>
                 :
-                <th></th>
+                <th>Verified</th>
                 }
                 <th>
                   <button onClick={() => handleDelete(seller)} className="btn btn-primary btn-xs">delete</button>
