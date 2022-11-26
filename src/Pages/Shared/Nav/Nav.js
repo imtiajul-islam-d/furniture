@@ -16,7 +16,6 @@ const Nav = () => {
         (res) => res.json()
       ),
   });
-  console.log(accRole, isLoading, loadingState)
   if (loadingState || isLoading) {
     return <Loader></Loader>
   }
