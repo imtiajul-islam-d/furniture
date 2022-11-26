@@ -39,9 +39,9 @@ const AllBuyers = () => {
               refetch()
               toast.success("Buyers account deleted successfully")
           }
-          console.log(result);
       })
     }
+   
     return (
         <div className="overflow-x-auto w-full p-5">
         <table className="table w-full">

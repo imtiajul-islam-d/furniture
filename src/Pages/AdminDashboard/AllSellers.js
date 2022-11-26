@@ -42,7 +42,26 @@ const AllSellers = () => {
         console.log(result);
     })
   }
-  console.log(sellers);
+   // verify user
+   const handleVerification = (user) => {
+    const confirm = window.confirm("Are you sure, you want to verify the seller?")
+    if(!confirm){
+        return
+    }
+    fetch(`http://localhost:5000/user/verification?email=${user?.email}`, {
+      method: "PATCH", 
+      headers: {
+        authorization: `bearer ${localStorage.getItem('furniture')}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.modifiedCount > 0){
+        toast.success("Successfully verified the seller")
+        refetch()
+      }
+    })
+}
   return (
     <div className="overflow-x-auto w-full p-5">
       <table className="table w-full">
@@ -53,6 +72,7 @@ const AllSellers = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -78,6 +98,13 @@ const AllSellers = () => {
                   }
                 </td>
                 <td>{seller?.acc}</td>
+                {
+                  !seller?.verified ? <th>
+                  <button onClick={() => handleVerification(seller)} className="btn btn-primary btn-xs">Verify</button>
+                </th>
+                :
+                <th></th>
+                }
                 <th>
                   <button onClick={() => handleDelete(seller)} className="btn btn-primary btn-xs">delete</button>
                 </th>
