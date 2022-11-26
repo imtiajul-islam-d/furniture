@@ -61,6 +61,7 @@ const AddAProduct = () => {
             title,
             name,
             categoryId: category,
+            category: data.productCategory,
             productLocation,
             originalPrice,
             resalePrice,
