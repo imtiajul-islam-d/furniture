@@ -9,7 +9,7 @@ const Category = () => {
     <section className="container mx-auto min-h-[50vh] flex items-center justify-center my-6 p-5">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
         <div className="flex items-center justify-center">
-          <Link className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl hover:scale-110	transition">
+          <Link to={`/category/${1}`} className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl hover:scale-110	transition">
             <figure>
               <img className="w-full" src={category1} alt="Minimalism" />
             </figure>
@@ -19,7 +19,7 @@ const Category = () => {
           </Link>
         </div>
         <div className="flex items-center justify-center">
-          <Link className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl hover:scale-110	transition">
+          <Link to={`/category/${2}`} className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl hover:scale-110	transition">
             <figure>
               <img className="w-full" src={category2} alt="Industrial" />
             </figure>
@@ -29,7 +29,7 @@ const Category = () => {
           </Link>
         </div>
         <div className="flex items-center justify-center">
-          <Link className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl hover:scale-110	transition">
+          <Link to={`/category/${3}`} className="card card-compact w-96 bg-base-100 shadow-md hover:shadow-xl hover:scale-110	transition">
             <figure>
               <img className="w-full" src={category3} alt="Bohemian" />
             </figure>
