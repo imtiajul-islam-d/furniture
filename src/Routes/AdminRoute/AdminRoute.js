@@ -17,7 +17,6 @@ const AdminRoute = ({ children }) => {
         `http://localhost:5000/user/specification?email=${user?.email}`
       ).then((res) => res.json()),
   });
-  console.log(accRole);
   // check user role ending
   if (loadingState || isLoading) {
     return <Loader></Loader>;
@@ -25,7 +24,7 @@ const AdminRoute = ({ children }) => {
   if (user && accRole[0]?.acc === "Admin") {
     return children;
   }
-  logOut().then(() => toast.error("You are not admin! Please login with admin ID.. Otherwise click on the login button!")).catch(()=>{})
+  logOut().then(() => toast.error("You are not admin! Please login with admin ID.. Otherwise click on the login button first and then try to login again. Else you will be rejected again!")).catch(()=>{})
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
 

@@ -31,11 +31,15 @@ const Login = () => {
         fetch(`http://localhost:5000/jwt?email=${email}`)
           .then((res) => res.json())
           .then((data) => {
+            console.log(data);
             if (data.accessToken) {
               localStorage.setItem("furniture", data.accessToken);
               reset();
               toast.success("Login Successful");
               navigate(from, { replace: true });
+            } else {
+              logOut();
+              toast.error('Your account has been deleted by the admin. Please contact with us!!')
             }
           });
         // jwt token
@@ -60,6 +64,9 @@ const Login = () => {
                     localStorage.setItem("furniture", data.accessToken);
                     toast.success("Login successful");
                     navigate(from, { replace: true });
+                  } else {
+                    logOut();
+                    toast.error('Your account has been deleted by the admin. Please contact with us!!')
                   }
                 });
               // jwt token

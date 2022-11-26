@@ -24,7 +24,7 @@ const SellerRoute = ({ children }) => {
   if (user && accRole[0]?.acc === "Seller") {
     return children;
   }
-  logOut().then(() => toast.error("You are not a seller! Please login with seller ID.. Otherwise click on the login button!")).catch(()=>{})
+  logOut().then(() => toast.error("You are not a seller! Please login with seller ID.. Otherwise click on the login button first and then try to login. Else you will be rejected again!")).catch(()=>{})
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
 

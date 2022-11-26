@@ -14,6 +14,9 @@ import SellerRoute from '../SellerRoute/SellerRoute'
 import UserRoute from '../UserRoute/UserRoute'
 import AddAProduct from '../../Pages/SellerDashboard/AddAProduct'
 import MyProducts from "../../Pages/SellerDashboard/MyProducts";
+import AllBuyers from "../../Pages/AdminDashboard/AllBuyers";
+import AllSellers from "../../Pages/AdminDashboard/AllSellers";
+import Reported from "../../Pages/AdminDashboard/Reported";
 
 const router = createBrowserRouter([
     {
@@ -39,7 +42,22 @@ const router = createBrowserRouter([
             },
             {
                 path: '/admin',
-                element:<PrivetRoute> <AdminRoute><AdminDashboard> </AdminDashboard></AdminRoute></PrivetRoute>
+                element:<PrivetRoute> <AdminRoute><AdminDashboard> </AdminDashboard></AdminRoute></PrivetRoute>,
+                children: [
+                    {
+                        path: '/admin',
+                        element: <PrivetRoute><AdminRoute><AllBuyers></AllBuyers></AdminRoute></PrivetRoute>
+                    },
+                    {
+                        path: '/admin/sellers',
+                        element: <PrivetRoute><AdminRoute><AllSellers></AllSellers></AdminRoute></PrivetRoute>
+                    },
+                    {
+                        path: '/admin/reported',
+                        element: <PrivetRoute><AdminRoute><Reported></Reported></AdminRoute></PrivetRoute>
+                    }
+
+                ]
             },
             {
                 path: '/seller',
