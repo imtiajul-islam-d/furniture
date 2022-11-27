@@ -6,7 +6,11 @@ import { AuthContext } from "../../context/AuthProvider";
 
 const MyProducts = () => {
   const { user, loadingState } = useContext(AuthContext);
-  const { isLoading, data: products, refetch } = useQuery({
+  const {
+    isLoading,
+    data: products,
+    refetch,
+  } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
       fetch(`http://localhost:5000/products?email=${user?.email}`, {
@@ -15,49 +19,51 @@ const MyProducts = () => {
         },
       }).then((res) => res.json()),
   });
-  if (isLoading || loadingState) {
-    return <Loader></Loader>;
-  }
+
   // delete a product
   const deleteProduct = (product) => {
-    const confirm = window.confirm(`Want to delete ${product?.name}?`)
-    if(!confirm){
-        return
+    const confirm = window.confirm(`Want to delete ${product?.name}?`);
+    if (!confirm) {
+      return;
     }
     fetch(`http://localhost:5000/products/${product._id}`, {
-        method: "DELETE",
-        headers: {
-            authorization: `bearer ${localStorage.getItem('furniture')}`
-        }
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("furniture")}`,
+      },
     })
-    .then(res => res.json())
-    .then(result => {
-        if(result.acknowledged){
-            refetch()
-            toast.success("Product deleted successfully")
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.acknowledged) {
+          refetch();
+          toast.success("Product deleted successfully");
         }
-        console.log(result);
-    })
-  }
-//   update advertise status
-const handleStatusUpdate = id => {
-    const confirm = window.confirm("Are you sure, you want to add the product to advertisement section?")
-    if(!confirm){
-        return
+      });
+  };
+  //   update advertise status
+  const handleStatusUpdate = (id) => {
+    const confirm = window.confirm(
+      "Are you sure, you want to add the product to advertisement section?"
+    );
+    if (!confirm) {
+      return;
     }
     fetch(`http://localhost:5000/product/advertise?id=${id}`, {
-      method: "PATCH", 
+      method: "PATCH",
       headers: {
-        authorization: `bearer ${localStorage.getItem('furniture')}`
-      }
+        authorization: `bearer ${localStorage.getItem("furniture")}`,
+      },
     })
-    .then(res => res.json())
-    .then(data => {
-      if(data.modifiedCount > 0){
-        toast.success("Product added successfully")
-        refetch()
-      }
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          toast.success("Product added successfully");
+          refetch();
+        }
+      });
+  };
+  if (isLoading || loadingState) {
+    return <Loader></Loader>;
   }
   return (
     <div className="overflow-x-auto w-full p-5">
@@ -101,7 +107,10 @@ const handleStatusUpdate = id => {
                 <td>{`$${product?.resalePrice}`}</td>
                 {!product?.sold && !product.ad ? (
                   <td>
-                    <button onClick={() => handleStatusUpdate(product._id)} className="btn btn-primary btn-xs">
+                    <button
+                      onClick={() => handleStatusUpdate(product._id)}
+                      className="btn btn-primary btn-xs"
+                    >
                       advertise
                     </button>
                   </td>
@@ -109,7 +118,12 @@ const handleStatusUpdate = id => {
                   <td></td>
                 )}
                 <th>
-                  <button onClick={() => deleteProduct(product)} className="btn btn-primary btn-xs">Delete</button>
+                  <button
+                    onClick={() => deleteProduct(product)}
+                    className="btn btn-primary btn-xs"
+                  >
+                    Delete
+                  </button>
                 </th>
               </tr>
             );
