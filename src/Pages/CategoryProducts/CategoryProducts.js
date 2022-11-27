@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
+import BookingModal from "../../components/BookingModal/BookingModal";
+import { AuthContext } from "../../context/AuthProvider";
+import Loader from "../../components/Loader/Loader";
 
 const CategoryProducts = () => {
+  const {user, loadingState} = useContext(AuthContext)
+  const [openModal, setOpenModal] = useState(false);
   const products = useLoaderData();
+  if(loadingState){
+    return <Loader></Loader>
+  }
   return (
     <section className="py-6 sm:py-12 dark:bg-gray-800 dark:text-gray-100">
       <div className="container p-6 mx-auto space-y-8">
-        <div className="space-y-2 text-center">
-          <h2 className="text-3xl font-bold">Partem reprimique an pro</h2>
-          <p className="font-serif text-sm dark:text-gray-400">
-            Qualisque erroribus usu at, duo te agam soluta mucius.
-          </p>
+        <div className="space-y-2 text-center my-3">
+          <h2 className="text-3xl font-bold">PRODUCTS</h2>
         </div>
         <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
           {products?.map((product) => {
@@ -20,9 +25,7 @@ const CategoryProducts = () => {
                 key={product?._id}
                 className="flex flex-col dark:bg-gray-900 shadow-md"
               >
-                <span
-                  aria-label="Te nulla oportere reprimique his dolorum"
-                >
+                <span aria-label="Te nulla oportere reprimique his dolorum">
                   <img
                     alt=""
                     className="object-cover w-full h-52 dark:bg-gray-500"
@@ -64,12 +67,13 @@ const CategoryProducts = () => {
 
                   <div className="flex flex-wrap justify-between pt-3 space-x-2 text-md dark:text-gray-400">
                     <span>Seller Name: {product?.sellerName}</span>
-                    <span className="text-blue-800">{
-                            product?.verified === true? 
-                            <FaRegCheckCircle></FaRegCheckCircle>
-                            :
-                            ""
-                        }</span>
+                    <span className="text-blue-800">
+                      {product?.verified === true ? (
+                        <FaRegCheckCircle></FaRegCheckCircle>
+                      ) : (
+                        ""
+                      )}
+                    </span>
                   </div>
                   <span>Mobile: {product?.mobile}</span>
                   <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs dark:text-gray-400">
@@ -77,11 +81,34 @@ const CategoryProducts = () => {
                     <span>Condition: {product?.condition}</span>
                   </div>
                 </div>
-                <button className="my-3 btn btn-primary">Book Now</button>
+                {product?.booked ? (
+                  <button disabled className="my-3 btn btn-primary">
+                    Booked
+                  </button>
+                ) : (
+                  <>
+                    <label
+                      // disabled= {slots.length === 0}
+                      onClick={() => setOpenModal(true)}
+                      htmlFor="booking-modal"
+                      className="btn btn-primary"
+                    >
+                      Book Now
+                    </label>
+                  </>
+                )}
+                {openModal && (
+                  <BookingModal
+                    user = {user}
+                    product = {product}
+                    setOpenModal={setOpenModal}
+                  ></BookingModal>
+                )}
               </article>
             );
           })}
         </div>
+        <BookingModal></BookingModal>
       </div>
     </section>
   );
