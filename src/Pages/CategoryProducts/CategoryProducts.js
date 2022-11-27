@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
 import BookingModal from "../../components/BookingModal/BookingModal";
 import { AuthContext } from "../../context/AuthProvider";
@@ -10,9 +10,10 @@ const CategoryProducts = () => {
   const [buyingAccess, setBuyingAccess] = useState(false);
   const { user, loadingState } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
-  const [prod , setProduct] = useState({})
+  const [prod, setProduct] = useState({});
   const products = useLoaderData();
   const buyerEmail = user?.email;
+  const navigation = useNavigation();
   // check user role
   useEffect(() => {
     fetch(`http://localhost:5000/user/specification?email=${buyerEmail}`)
@@ -26,6 +27,11 @@ const CategoryProducts = () => {
         }
       });
   }, [buyerEmail]);
+  // use loader
+  if(navigation.state === 'loading'){
+    return <Loader></Loader>
+  }
+  // use loader
   if (loadingState) {
     return <Loader></Loader>;
   }
@@ -108,8 +114,8 @@ const CategoryProducts = () => {
                     <label
                       // disabled= {slots.length === 0}
                       onClick={() => {
-                        setOpenModal(true)
-                        setProduct(product)
+                        setOpenModal(true);
+                        setProduct(product);
                       }}
                       htmlFor="booking-modal"
                       className="btn btn-primary"
