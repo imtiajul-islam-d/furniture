@@ -19,8 +19,6 @@ const CategoryProducts = () => {
       .then((res) => res.json())
       .then((data) => {
         const role = data[0]?.acc;
-        console.log(role);
-        console.log(buyingAccess);
         if (role === "User") {
           setBuyingAccess(true);
         } else {
