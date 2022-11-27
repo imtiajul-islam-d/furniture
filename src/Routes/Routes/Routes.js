@@ -19,6 +19,10 @@ import AllSellers from "../../Pages/AdminDashboard/AllSellers";
 import Reported from "../../Pages/AdminDashboard/Reported";
 import CategoryProducts from "../../Pages/CategoryProducts/CategoryProducts";
 
+//
+
+// 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -136,6 +140,7 @@ const router = createBrowserRouter([
             },
           });
         },
+        // loader: contactLoader(queryClient),
         element: (
           <PrivetRoute>
             <CategoryProducts></CategoryProducts>

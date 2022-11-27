@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthProvider";
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
   const { user, loadingState, logOut } = useContext(AuthContext);
+  const [userVerified, setUserVerified] = useState()
   const navigate = useNavigate();
   const userName = user?.displayName;
   const userEmail = user?.email;
@@ -19,6 +20,18 @@ const AddAProduct = () => {
   } = useForm();
 
   // const imageHostKey = process.env.REACT_APP_imagebb_key;
+  // check user verification
+  const buyerEmail = user?.email;
+  // check user role
+  useEffect(() => {
+    fetch(`http://localhost:5000/user/verification?email=${buyerEmail}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const verified = data[0]?.verified
+        setUserVerified(verified)
+      });
+  }, [buyerEmail]);
+  // 
   const imageHostKey = "4d0a30ae8dcdfa6967e6c431234d0065";
   if (loadingState) {
     return <Loader></Loader>;
@@ -76,7 +89,7 @@ const AddAProduct = () => {
             sellerName: userName,
             mobile,
             sellerEmail: userEmail,
-            verified: false,
+            verified: userVerified,
             description,
             sold: false,
             ad: false,

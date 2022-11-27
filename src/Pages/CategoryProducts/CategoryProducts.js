@@ -1,17 +1,37 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
 import BookingModal from "../../components/BookingModal/BookingModal";
 import { AuthContext } from "../../context/AuthProvider";
 import Loader from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 const CategoryProducts = () => {
-  const {user, loadingState} = useContext(AuthContext)
+  const [buyingAccess, setBuyingAccess] = useState(false);
+  const { user, loadingState } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
+  const [prod , setProduct] = useState({})
   const products = useLoaderData();
-  if(loadingState){
-    return <Loader></Loader>
+  const buyerEmail = user?.email;
+  // check user role
+  useEffect(() => {
+    fetch(`http://localhost:5000/user/specification?email=${buyerEmail}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const role = data[0]?.acc;
+        console.log(role);
+        console.log(buyingAccess);
+        if (role === "User") {
+          setBuyingAccess(true);
+        } else {
+          toast.error("You are not buyer, you cannot buy any product! ");
+        }
+      });
+  }, [buyerEmail]);
+  if (loadingState) {
+    return <Loader></Loader>;
   }
+
   return (
     <section className="py-6 sm:py-12 dark:bg-gray-800 dark:text-gray-100">
       <div className="container p-6 mx-auto space-y-8">
@@ -89,26 +109,32 @@ const CategoryProducts = () => {
                   <>
                     <label
                       // disabled= {slots.length === 0}
-                      onClick={() => setOpenModal(true)}
+                      onClick={() => {
+                        setOpenModal(true)
+                        setProduct(product)
+                      }}
                       htmlFor="booking-modal"
                       className="btn btn-primary"
+                      disabled={!buyingAccess}
                     >
                       Book Now
                     </label>
                   </>
                 )}
-                {openModal && (
-                  <BookingModal
-                    user = {user}
-                    product = {product}
-                    setOpenModal={setOpenModal}
-                  ></BookingModal>
-                )}
               </article>
             );
           })}
         </div>
-        <BookingModal></BookingModal>
+        {openModal && (
+          <BookingModal
+            user={user}
+            prod={prod}
+            setOpenModal={setOpenModal}
+            loadingState={loadingState}
+            // buyerEmail={buyerEmail}
+            // buyingAccess={buyingAccess}
+          ></BookingModal>
+        )}
       </div>
     </section>
   );

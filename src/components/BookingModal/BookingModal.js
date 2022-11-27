@@ -1,39 +1,44 @@
 // import { format } from "date-fns";
-import React, { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const BookingModal = ({ user, product, setOpenModal }) => {
-    const handleBooking = (e) => {
-        e.preventDefault()
-        const form = e.target;
-        const productObject = {
-            productId : product?._id,
-            customerEmail : user?.email,
-            customerName: user?.displayName,
-            customerMobile: form.phone.value,
-            meetingLocation: form.meetingLocation.value,
-            productName: product?.name,
-            productPrice: product?.resalePrice,
-            productOriginalPrice: product?.originalPrice,
-            sellerEmail: product?.sellerEmail
+const BookingModal = ({ user, prod, setOpenModal }) => {
+  const navigate = useNavigate();
+  const handleBooking = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const productObject = {
+      productId: prod?._id,
+      customerEmail: user?.email,
+      customerName: user?.displayName,
+      customerMobile: form.phone.value,
+      meetingLocation: form.meetingLocation.value,
+      productName: prod?.name,
+      productPrice: prod?.resalePrice,
+      productOriginalPrice: prod?.originalPrice,
+      sellerEmail: prod?.sellerEmail,
+    };
+    fetch("http://localhost:5000/product/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("furniture")}`,
+      },
+      body: JSON.stringify(productObject),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success("Booking confirmed");
+          setOpenModal(false);
+          navigate("/");
+        } else {
+          toast.error(data.message);
         }
-        fetch("http://localhost:5000/product/bookings", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(productObject),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.acknowledged) {
-                toast.success("Booking confirmed");
-                setOpenModal(false)
-              }else{
-                toast.error(data.message);
-              }
-            })
-        }
+      });
+  };
 
   return (
     <>
@@ -66,7 +71,7 @@ const BookingModal = ({ user, product, setOpenModal }) => {
             />
             <input
               type="email"
-              value={product?.name}
+              value={prod?.name}
               disabled
               required
               className="input w-full border outline outline-1 outline-gray-300 my-3"
@@ -74,7 +79,7 @@ const BookingModal = ({ user, product, setOpenModal }) => {
             <br />
             <input
               type="email"
-              value={`$${product?.resalePrice}`}
+              value={`$${prod?.resalePrice}`}
               disabled
               required
               className="input w-full border outline outline-1 outline-gray-300 my-3"
