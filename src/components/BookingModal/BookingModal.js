@@ -19,6 +19,10 @@ const BookingModal = ({ user, prod, setOpenModal }) => {
       productPrice: prod?.resalePrice,
       productOriginalPrice: prod?.originalPrice,
       sellerEmail: prod?.sellerEmail,
+      productImage : prod?.productImage,
+      title: prod?.title,
+      sellerLocation: prod?.productLocation,
+      sellerMobile: prod?.mobile,
     };
     fetch("http://localhost:5000/product/bookings", {
       method: "POST",

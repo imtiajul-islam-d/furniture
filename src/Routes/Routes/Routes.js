@@ -18,10 +18,12 @@ import AllBuyers from "../../Pages/AdminDashboard/AllBuyers";
 import AllSellers from "../../Pages/AdminDashboard/AllSellers";
 import Reported from "../../Pages/AdminDashboard/Reported";
 import CategoryProducts from "../../Pages/CategoryProducts/CategoryProducts";
+import MyOrders from "../../Pages/UserDashboard/MyOrders";
+import Payment from "../../Pages/UserDashboard/Payment/Payment";
 
 //
 
-// 
+//
 
 const router = createBrowserRouter([
   {
@@ -130,6 +132,35 @@ const router = createBrowserRouter([
             </UserRoute>
           </PrivetRoute>
         ),
+        children: [
+          {
+            path: "/user",
+            element: (
+              <PrivetRoute>
+                <UserRoute>
+                  <MyOrders></MyOrders>
+                </UserRoute>
+              </PrivetRoute>
+            ),
+          },
+          {
+            path: "/user/payment/:id",
+            loader: async ({ params }) => {
+              return fetch(`http://localhost:5000/products/bookings/${params.id}`, {
+                headers: {
+                  authorization: `bearer ${localStorage.getItem("furniture")}`,
+                },
+              });
+            },
+            element: (
+              <PrivetRoute>
+                <UserRoute>
+                  <Payment></Payment>
+                </UserRoute>
+              </PrivetRoute>
+            ),
+          },
+        ],
       },
       {
         path: "/category/:id",

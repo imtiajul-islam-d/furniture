@@ -10,6 +10,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { useLocation } from "react-router-dom";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
