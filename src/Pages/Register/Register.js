@@ -36,7 +36,10 @@ const Register = () => {
           })
           .then(() => {});
       })
-      .catch((error) => setRegisterError(error.message));
+      .catch((error) => {
+        setRegisterError(error.message)
+        setLoadingState(false)
+      });
   };
   // register the user with email and password end
   const handleGoogleRegister = () => {
