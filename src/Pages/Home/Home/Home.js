@@ -3,6 +3,7 @@ import React from "react";
 import Loader from "../../../components/Loader/Loader";
 import Advertised from "../Advertised/Advertised";
 import Category from "../Category/Category";
+import Banner from "./Banner";
 
 const Home = () => {
   const {
@@ -22,6 +23,9 @@ const Home = () => {
   }
   return (
     <div>
+      <section>
+        <Banner></Banner>
+      </section>
       {adProducts?.length > 0 && (
         <section>
           <Advertised ad={adProducts}></Advertised>
