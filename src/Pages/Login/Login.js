@@ -43,7 +43,10 @@ const Login = () => {
           });
         // jwt token
       })
-      .catch((error) => setLoginError(error.message));
+      .catch((error) =>{
+        setLoadingState(false)
+      setLoginError(error.message)
+    });
   };
   // handle google login
   const handleGoogleLogin = () => {
