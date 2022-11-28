@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
 
