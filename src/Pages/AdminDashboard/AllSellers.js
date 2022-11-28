@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
+import { FaCheck } from "react-icons/fa";
 
 const AllSellers = () => {
   const { user, loadingState } = useContext(AuthContext);
@@ -72,7 +73,7 @@ const AllSellers = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th></th>
+            <th>Verification</th>
             <th></th>
           </tr>
         </thead>
@@ -103,7 +104,7 @@ const AllSellers = () => {
                   <button onClick={() => handleVerification(seller)} className="btn btn-primary btn-xs">Verify</button>
                 </th>
                 :
-                <th>Verified</th>
+                <th className="text-blue-700"><FaCheck></FaCheck></th>
                 }
                 <th>
                   <button onClick={() => handleDelete(seller)} className="btn btn-primary btn-xs">delete</button>
