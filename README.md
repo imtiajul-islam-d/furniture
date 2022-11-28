@@ -1,8 +1,8 @@
 # Welcome to Furniture 
 
-### GitHub Client side repository:  [Client site gitHub](https://github.com/facebook/create-react-app).
-### GitHub Server side repository:  [Server Site github](https://github.com/facebook/create-react-app).
-### Live Site Link:  [Live site](https://github.com/facebook/create-react-app).
+### GitHub Client side repository:  [Client site gitHub](https://github.com/programming-hero-web-course-4/b612-used-products-resale-clients-side-imtiajul-islam-d).
+### GitHub Server side repository:  [Server Site github](https://github.com/programming-hero-web-course-4/b612-used-products-resale-server-side-imtiajul-islam-d).
+### Live Site Link:  [Live site](https://assignment-12-89258.web.app).
 ### Admin Email : admin@gmail.com
 ### Admin password: 123123
 
