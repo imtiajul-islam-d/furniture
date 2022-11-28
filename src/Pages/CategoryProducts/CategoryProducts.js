@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { useLoaderData, useNavigate, useNavigation } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
 import BookingModal from "../../components/BookingModal/BookingModal";
 import { AuthContext } from "../../context/AuthProvider";
@@ -14,6 +14,7 @@ const CategoryProducts = () => {
   const products = useLoaderData();
   const buyerEmail = user?.email;
   const navigation = useNavigation();
+  const navigate = useNavigate();
   // check user role
   useEffect(() => {
     fetch(`http://localhost:5000/user/specification?email=${buyerEmail}`)
@@ -27,15 +28,35 @@ const CategoryProducts = () => {
         }
       });
   }, [buyerEmail]);
+  // handle report
+  const reportHandler = (id) => {
+    fetch(`http://localhost:5000/products/report?id=${id}`, {
+      method: "PATCH",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("furniture")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data?.modifiedCount > 0) {
+          toast.success(
+            "Your report on this item is counted!! Please try another product!"
+          );
+          navigate("/");
+        } else if (data.matchedCount === 1 && data.upsertedId === null) {
+          toast.error("This product has already been reported!");
+        }
+      });
+  };
   // use loader
-  if(navigation.state === 'loading'){
-    return <Loader></Loader>
+  if (navigation.state === "loading") {
+    return <Loader></Loader>;
   }
   // use loader
   if (loadingState) {
     return <Loader></Loader>;
   }
-
   return (
     <section className="py-6 sm:py-12 dark:bg-gray-800 dark:text-gray-100">
       <div className="container p-6 mx-auto space-y-8">
@@ -43,9 +64,9 @@ const CategoryProducts = () => {
           <h2 className="text-3xl font-bold">PRODUCTS</h2>
         </div>
         <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
-          {
-            products.length === 0 && <p className="h-screen">No product added</p>
-          }
+          {products.length === 0 && (
+            <p className="h-screen">No product added</p>
+          )}
           {products?.map((product) => {
             return (
               <article
@@ -108,6 +129,14 @@ const CategoryProducts = () => {
                     <span>Condition: {product?.condition}</span>
                   </div>
                 </div>
+                {buyingAccess && (
+                  <button
+                    onClick={() => reportHandler(product?._id)}
+                    className="btn btn-primary"
+                  >
+                    {product?.reported ? "Reported" : "Report"}
+                  </button>
+                )}
                 {product?.booked ? (
                   <button disabled className="my-3 btn btn-primary">
                     Booked
