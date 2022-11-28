@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useContext } from "react";
-import { FaCheck } from "react-icons/fa";
+import React from "react";
 import Loader from "../../components/Loader/Loader";
 
 const Reported = () => {
   const {
     isLoading,
     data: reportedItems,
-    refetch,
   } = useQuery({
     queryKey: ["products"],
     queryFn: () =>
