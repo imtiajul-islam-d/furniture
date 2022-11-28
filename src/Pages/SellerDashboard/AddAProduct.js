@@ -314,11 +314,7 @@ const AddAProduct = () => {
               className="input input-bordered w-full"
               type="text"
               {...register("mobile", {
-                required: "Please enter your mobile number",
-                pattern: {
-                  value: /^[1-9]+[0-9]*$/,
-                  message: "Please enter in number",
-                },
+                required: "Please enter your mobile number"
               })}
             />
             {errors.mobile && (
