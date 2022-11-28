@@ -70,12 +70,23 @@ const Blog = () => {
           </div>
           <div className="collapse-content">
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eos
-              alias ab voluptate tempora vitae, tenetur accusamus ipsum rem
-              molestiae neque a ullam nobis fuga cumque! Qui sit quae harum
-              dolores libero odit nostrum quo, explicabo expedita doloremque
-              mollitia officia laudantium corporis? Porro illo odit, pariatur
-              dolorum alias adipisci necessitatibus!
+              <strong>React:</strong>
+              <br />
+              One of the main reasons for the popularity of React is that it
+              works very efficiently with the DOM.
+              <br />
+              <strong>Vue:</strong>
+              <br />
+              Vue also uses the virtual DOM, but compared to React, Vue has
+              better performance and stability. Vue and React's performance
+              difference is subtle since it is only a few milliseconds.
+              <br />
+              <strong>Angular:</strong>
+              <br />
+              For teams building an application out of a small learning curve,
+              React is a go-to option. At the same time, when creating an
+              enterprise-grade app with extensive development, Angular will fit
+              best as a steeper learning curve is not a problem for these teams
             </p>
           </div>
         </div>
