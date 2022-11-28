@@ -13,7 +13,8 @@ export default function Carousel() {
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 5000,
-    cssEase: "linear"
+    cssEase: "linear",
+    // adaptiveHeight: true
   };
   return (
     <Slider className="h-full flex items-center justify-center" {...settings}>

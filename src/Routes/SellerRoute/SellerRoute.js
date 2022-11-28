@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
-import toast from "react-hot-toast";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
 
 const SellerRoute = ({ children }) => {
-  const { user, loadingState, logOut } = useContext(AuthContext);
-  const location = useLocation();
+  const { user, loadingState } = useContext(AuthContext);
   // check user role starting
 
   const { isLoading, data: accRole } = useQuery({
@@ -24,8 +22,7 @@ const SellerRoute = ({ children }) => {
   if (user && accRole[0]?.acc === "Seller") {
     return children;
   }
-  logOut().then(() => toast.error("You are not a seller! Please login with seller ID.. Otherwise click on the login button first and then try to login. Else you will be rejected again!")).catch(()=>{})
-  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
+  return <Navigate to="/"></Navigate>;
 };
 
 export default SellerRoute;

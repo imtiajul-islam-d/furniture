@@ -151,21 +151,6 @@ const Register = () => {
                   {errors.accountRole?.message}
                 </p>
               )}
-              {/* <label className="label">
-                <span className="label-text">Choose a profile picture</span>
-              </label>
-              <input 
-              type="file" 
-              className="file-input file-input-bordered w-full"
-              {...register("pp", {
-                  required: "Please choose a profile picture",
-                })}
-               />
-              {errors.pp && (
-                <p className="text-red-700" role="alert">
-                  {errors.pp?.message}
-                </p>
-              )} */}
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
@@ -190,6 +175,7 @@ const Register = () => {
             <input
               className="btn btn-primary w-full my-3 text-white"
               type="submit"
+              value="Register"
             />
           </form>
           <p className="text-center my-3">

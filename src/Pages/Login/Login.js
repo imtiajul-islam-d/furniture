@@ -129,6 +129,7 @@ const Login = () => {
           <input
             className="btn btn-primary w-full my-3 text-white"
             type="submit"
+            value='Login'
           />
         </form>
         <p className="text-center my-3">

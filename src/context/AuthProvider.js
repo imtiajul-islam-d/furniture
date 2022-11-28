@@ -45,6 +45,7 @@ const AuthProvider = ({ children }) => {
   // login ending
   // logout starting
   const logOut = () => {
+    localStorage.removeItem('furniture')
     return signOut(auth)
   }
   // logout ending
