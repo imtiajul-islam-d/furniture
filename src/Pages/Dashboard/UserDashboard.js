@@ -26,7 +26,7 @@ const UserDashboard = () => {
             X
           </label>
           <li>
-            <Link to="/user">My Products</Link>
+            <Link to="/user">My Orders</Link>
           </li>
         </ul>
       </div>
