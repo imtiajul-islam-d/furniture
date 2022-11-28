@@ -11,7 +11,7 @@ const Payment = () => {
     return <Loader></Loader>;
   }
   const pay = (id) => {
-    fetch(`http://localhost:5000/product/pay?id=${id}`, {
+    fetch(`https://server-side-livid.vercel.app/product/pay?id=${id}`, {
       method: "PATCH",
       headers: {
         authorization: `bearer ${localStorage.getItem("furniture")}`,
