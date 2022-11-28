@@ -9,11 +9,14 @@ const MyOrders = () => {
   const { isLoading, data: myProducts } = useQuery({
     queryKey: ["myProducts", user?.email],
     queryFn: () =>
-      fetch(`https://server-side-livid.vercel.app/product/bookings?email=${user?.email}`, {
-        headers: {
-          authorization: `bearer ${localStorage.getItem("furniture")}`,
-        },
-      })
+      fetch(
+        `https://server-side-livid.vercel.app/product/bookings?email=${user?.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("furniture")}`,
+          },
+        }
+      )
         .then((res) => res.json())
         .then((result) => {
           return result;
@@ -70,9 +73,20 @@ const MyOrders = () => {
                   </th>
                 ) : (
                   <th>
-                    <Link to={`/user/payment/${product?.productId}`}>
-                      <button className="btn btn-primary">Pay</button>
-                    </Link>
+                    <>
+                      {product?.sold ? (
+                        <Link disabled className="btn btn-primary">
+                          Paid
+                        </Link>
+                      ) : (
+                        <Link
+                          to={`/user/payment/${product?.productId}`}
+                          className="btn btn-primary"
+                        >
+                          Pay
+                        </Link>
+                      )}
+                    </>
                   </th>
                 )}
               </tr>

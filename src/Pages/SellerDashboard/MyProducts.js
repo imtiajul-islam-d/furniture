@@ -111,7 +111,7 @@ const MyProducts = () => {
                 <td>{product?.sold ? "Sold" : "available"}</td>
                 <td>{`$${product?.originalPrice}`}</td>
                 <td>{`$${product?.resalePrice}`}</td>
-                {!product?.sold && !product.ad ? (
+                {!product?.sold && !product?.ad ? (
                   <td>
                     <button
                       onClick={() => handleStatusUpdate(product._id)}
@@ -121,7 +121,7 @@ const MyProducts = () => {
                     </button>
                   </td>
                 ) : (
-                  <td></td>
+                  <td>added to advertise</td>
                 )}
                 <th>
                   <button

@@ -64,8 +64,8 @@ const CategoryProducts = () => {
           <h2 className="text-3xl font-bold">PRODUCTS</h2>
         </div>
         <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
-          {products.length === 0 && (
-            <p className="h-screen">No product added</p>
+          {products?.length === 0 && (
+            <p className="min-h-[85vh]">No product added</p>
           )}
           {products?.map((product) => {
             return (
