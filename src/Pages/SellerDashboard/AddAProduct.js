@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthProvider";
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
   const { user, loadingState, logOut } = useContext(AuthContext);
-  const [userVerified, setUserVerified] = useState()
+  const [userVerified, setUserVerified] = useState();
   const navigate = useNavigate();
   const userName = user?.displayName;
   const userEmail = user?.email;
@@ -27,11 +27,11 @@ const AddAProduct = () => {
     fetch(`http://localhost:5000/user/verification?email=${buyerEmail}`)
       .then((res) => res.json())
       .then((data) => {
-        const verified = data[0]?.verified
-        setUserVerified(verified)
+        const verified = data[0]?.verified;
+        setUserVerified(verified);
       });
   }, [buyerEmail]);
-  // 
+  //
   const imageHostKey = "4d0a30ae8dcdfa6967e6c431234d0065";
   if (loadingState) {
     return <Loader></Loader>;
@@ -58,7 +58,7 @@ const AddAProduct = () => {
     const description = data.description;
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, "0");
-    let mm = String(today.getMonth() + 1).padStart(2, "0"); 
+    let mm = String(today.getMonth() + 1).padStart(2, "0");
     let yyyy = today.getFullYear();
     today = mm + "/" + dd + "/" + yyyy;
 
@@ -133,6 +133,12 @@ const AddAProduct = () => {
   return (
     <div className="container mx-auto p-5 my-5">
       <h2 className="text-center text-3xl font-bold">Add a product</h2>
+      <label
+        htmlFor="sellerDrawer"
+        className="btn btn-primary drawer-button lg:hidden"
+      >
+        {`>`}
+      </label>
       <div>
         <form onSubmit={handleSubmit(handleAddProduct)} action="">
           <div className="form-control w-full">

@@ -27,12 +27,13 @@ const MyOrders = () => {
       <table className="table w-full">
         {/* <!-- head --> */}
         <thead>
+          <label
+            htmlFor="sellerDrawer"
+            className="btn btn-primary drawer-button lg:hidden"
+          >
+            {`>`}
+          </label>
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
             <th>Product</th>
             <th>Title</th>
             <th>Product Price</th>
@@ -43,11 +44,6 @@ const MyOrders = () => {
           {myProducts.map((product) => {
             return (
               <tr key={product._id}>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
                 <td>
                   <div className="flex items-center space-x-3">
                     <div className="avatar">

@@ -70,6 +70,12 @@ const MyProducts = () => {
       <table className="table w-full">
         {/* <!-- head --> */}
         <thead>
+          <label
+            htmlFor="sellerDrawer"
+            className="btn btn-primary drawer-button lg:hidden"
+          >
+            {`>`}
+          </label>
           <tr>
             <th>Products</th>
             <th>Sales status</th>
