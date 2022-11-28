@@ -24,7 +24,7 @@ const AddAProduct = () => {
   const buyerEmail = user?.email;
   // check user role
   useEffect(() => {
-    fetch(`http://localhost:5000/user/verification?email=${buyerEmail}`)
+    fetch(`https://server-side-livid.vercel.app/user/verification?email=${buyerEmail}`)
       .then((res) => res.json())
       .then((data) => {
         const verified = data[0]?.verified;
@@ -98,7 +98,7 @@ const AddAProduct = () => {
             reported: false,
           };
           // post data into the database
-          fetch(`http://localhost:5000/products`, {
+          fetch(`https://server-side-livid.vercel.app/products`, {
             method: "POST",
             headers: {
               "content-type": "application/json",

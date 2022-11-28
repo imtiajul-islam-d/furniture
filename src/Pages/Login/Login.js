@@ -28,7 +28,7 @@ const Login = () => {
     emailLogin(email, password)
       .then((result) => {
         // jwt token
-        fetch(`http://localhost:5000/jwt?email=${email}`)
+        fetch(`https://server-side-livid.vercel.app/jwt?email=${email}`)
           .then((res) => res.json())
           .then((data) => {
             if (data.accessToken) {
@@ -51,12 +51,12 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         const email = user.email;
-        fetch(`http://localhost:5000/user/specification?email=${email}`)
+        fetch(`https://server-side-livid.vercel.app/user/specification?email=${email}`)
           .then((res) => res.json())
           .then((data) => {
             if (data[0]?._id) {
               // jwt token
-              fetch(`http://localhost:5000/jwt?email=${email}`)
+              fetch(`https://server-side-livid.vercel.app/jwt?email=${email}`)
                 .then((res) => res.json())
                 .then((data) => {
                   if (data.accessToken) {

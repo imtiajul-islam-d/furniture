@@ -50,7 +50,7 @@ const Register = () => {
         const email = user.email;
         const acc = "User";
         // check user
-        fetch(`http://localhost:5000/user/specification?email=${email}`)
+        fetch(`https://server-side-livid.vercel.app/user/specification?email=${email}`)
           .then((res) => res.json())
           .then((data) => {
             if (data[0]?._id) {
@@ -79,7 +79,7 @@ const Register = () => {
       acc,
       verified: false,
     };
-    fetch("http://localhost:5000/users", {
+    fetch("https://server-side-livid.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

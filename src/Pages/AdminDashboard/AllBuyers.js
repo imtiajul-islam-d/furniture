@@ -13,7 +13,7 @@ const AllBuyers = () => {
   } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
-      fetch(`http://localhost:5000/users/buyers`, {
+      fetch(`https://server-side-livid.vercel.app/users/buyers`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("furniture")}`,
         },
@@ -27,7 +27,7 @@ const AllBuyers = () => {
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/users/info/${buyer?.email}`, {
+    fetch(`https://server-side-livid.vercel.app/users/info/${buyer?.email}`, {
       method: "DELETE",
       headers: {
         authorization: `bearer ${localStorage.getItem("furniture")}`,

@@ -9,7 +9,7 @@ const Reported = () => {
   } = useQuery({
     queryKey: ["products"],
     queryFn: () =>
-      fetch(`http://localhost:5000/products/reported`, {
+      fetch(`https://server-side-livid.vercel.app/products/reported`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("furniture")}`,
         },

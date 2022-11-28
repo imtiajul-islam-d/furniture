@@ -12,7 +12,7 @@ const AdminRoute = ({ children }) => {
     queryKey: ["accRole", user?.email],
     queryFn: () =>
       fetch(
-        `http://localhost:5000/user/specification?email=${user?.email}`
+        `https://server-side-livid.vercel.app/user/specification?email=${user?.email}`
       ).then((res) => res.json()),
   });
   // check user role ending

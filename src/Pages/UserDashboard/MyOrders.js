@@ -9,7 +9,7 @@ const MyOrders = () => {
   const { isLoading, data: myProducts } = useQuery({
     queryKey: ["myProducts", user?.email],
     queryFn: () =>
-      fetch(`http://localhost:5000/product/bookings?email=${user?.email}`, {
+      fetch(`https://server-side-livid.vercel.app/product/bookings?email=${user?.email}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("furniture")}`,
         },

@@ -13,7 +13,7 @@ const MyProducts = () => {
   } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
-      fetch(`http://localhost:5000/products?email=${user?.email}`, {
+      fetch(`https://server-side-livid.vercel.app/products?email=${user?.email}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("furniture")}`,
         },
@@ -26,7 +26,7 @@ const MyProducts = () => {
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/products/${product._id}`, {
+    fetch(`https://server-side-livid.vercel.app/products/${product._id}`, {
       method: "DELETE",
       headers: {
         authorization: `bearer ${localStorage.getItem("furniture")}`,
@@ -48,7 +48,7 @@ const MyProducts = () => {
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/product/advertise?id=${id}`, {
+    fetch(`https://server-side-livid.vercel.app/product/advertise?id=${id}`, {
       method: "PATCH",
       headers: {
         authorization: `bearer ${localStorage.getItem("furniture")}`,

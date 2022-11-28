@@ -146,7 +146,7 @@ const router = createBrowserRouter([
           {
             path: "/user/payment/:id",
             loader: async ({ params }) => {
-              return fetch(`http://localhost:5000/products/bookings/${params.id}`, {
+              return fetch(`https://server-side-livid.vercel.app/products/bookings/${params.id}`, {
                 headers: {
                   authorization: `bearer ${localStorage.getItem("furniture")}`,
                 },
@@ -165,7 +165,7 @@ const router = createBrowserRouter([
       {
         path: "/category/:id",
         loader: async ({ params }) => {
-          return fetch(`http://localhost:5000/category/${params.id}`, {
+          return fetch(`https://server-side-livid.vercel.app/category/${params.id}`, {
             headers: {
               authorization: `bearer ${localStorage.getItem("furniture")}`,
             },

@@ -9,7 +9,7 @@ const useRole = (email) => {
   } = useQuery({
     queryKey: ["accRole", email],
     queryFn: () =>
-      fetch(`http://localhost:5000/user/specification?email=${email}`)
+      fetch(`https://server-side-livid.vercel.app/user/specification?email=${email}`)
       .then((res) => res.json())
   });
   setRole(accRole)

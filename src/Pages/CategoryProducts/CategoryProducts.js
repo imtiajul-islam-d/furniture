@@ -17,7 +17,7 @@ const CategoryProducts = () => {
   const navigate = useNavigate();
   // check user role
   useEffect(() => {
-    fetch(`http://localhost:5000/user/specification?email=${buyerEmail}`)
+    fetch(`https://server-side-livid.vercel.app/user/specification?email=${buyerEmail}`)
       .then((res) => res.json())
       .then((data) => {
         const role = data[0]?.acc;
@@ -30,7 +30,7 @@ const CategoryProducts = () => {
   }, [buyerEmail]);
   // handle report
   const reportHandler = (id) => {
-    fetch(`http://localhost:5000/products/report?id=${id}`, {
+    fetch(`https://server-side-livid.vercel.app/products/report?id=${id}`, {
       method: "PATCH",
       headers: {
         authorization: `bearer ${localStorage.getItem("furniture")}`,
@@ -132,7 +132,7 @@ const CategoryProducts = () => {
                 {buyingAccess && (
                   <button
                     onClick={() => reportHandler(product?._id)}
-                    className="btn btn-primary"
+                    className="btn btn-primary my-3"
                   >
                     {product?.reported ? "Reported" : "Report"}
                   </button>

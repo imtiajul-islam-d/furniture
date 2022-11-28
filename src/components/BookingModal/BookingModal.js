@@ -24,7 +24,7 @@ const BookingModal = ({ user, prod, setOpenModal }) => {
       sellerLocation: prod?.productLocation,
       sellerMobile: prod?.mobile,
     };
-    fetch("http://localhost:5000/product/bookings", {
+    fetch("https://server-side-livid.vercel.app/product/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",

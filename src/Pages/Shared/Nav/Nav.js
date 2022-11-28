@@ -12,7 +12,7 @@ const Nav = () => {
   const { isLoading, data: accRole } = useQuery({
     queryKey: ["accRole", email],
     queryFn: () =>
-      fetch(`http://localhost:5000/user/specification?email=${email}`).then(
+      fetch(`https://server-side-livid.vercel.app/user/specification?email=${email}`).then(
         (res) => res.json()
       ),
   });

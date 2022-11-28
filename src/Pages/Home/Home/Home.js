@@ -10,7 +10,7 @@ const Home = () => {
   const { isLoading, data: adProducts } = useQuery({
     queryKey: ["products"],
     queryFn: () =>
-      fetch(`http://localhost:5000/products/advertised`)
+      fetch(`https://server-side-livid.vercel.app/products/advertised`)
         .then((res) => res.json())
         .then((result) => {
           return result;
