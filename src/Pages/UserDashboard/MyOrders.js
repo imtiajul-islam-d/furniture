@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
 
 const MyOrders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate()
   const { isLoading, data: myProducts } = useQuery({
     queryKey: ["myProducts", user?.email],
     queryFn: () =>
@@ -24,6 +26,11 @@ const MyOrders = () => {
   });
   if (isLoading) {
     return <Loader></Loader>;
+  }
+  if(myProducts.message){
+    toast.error("Oppsss!! something went wrong! Please login")
+    navigate('/login')
+    logOut()
   }
   return (
     <div className="overflow-x-auto w-full">

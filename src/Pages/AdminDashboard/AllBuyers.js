@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../context/AuthProvider";
 
 const AllBuyers = () => {
-  const { user, loadingState } = useContext(AuthContext);
+  const { user, loadingState, logOut } = useContext(AuthContext);
+  const navigate = useNavigate()
   const {
     isLoading,
     data: buyers,
@@ -21,6 +23,12 @@ const AllBuyers = () => {
   });
   if (isLoading || loadingState) {
     return <Loader></Loader>;
+  }
+
+  if(buyers.message){
+    toast.error("Oppsss!! something went wrong! Please login")
+    navigate('/login')
+    logOut()
   }
   const handleDelete = (buyer) => {
     const confirm = window.confirm(`Want to delete ${buyer?.name}?`);

@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 const CategoryProducts = () => {
   const [buyingAccess, setBuyingAccess] = useState(false);
-  const { user, loadingState } = useContext(AuthContext);
+  const { user, loadingState, logOut } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
   const [prod, setProduct] = useState({});
   const products = useLoaderData();
@@ -44,7 +44,7 @@ const CategoryProducts = () => {
             "Your report on this item is counted!! Please try another product!"
           );
           navigate("/");
-        } else if (data.matchedCount === 1 && data.upsertedId === null) {
+        } else if (data?.matchedCount === 1 && data?.upsertedId === null) {
           toast.error("This product has already been reported!");
         }
       });
@@ -56,6 +56,11 @@ const CategoryProducts = () => {
   // use loader
   if (loadingState) {
     return <Loader></Loader>;
+  }
+  if(products.message){
+    logOut()
+    navigate("/login")
+    return toast.error('Oppss! Something went wrong! Please login again')
   }
   return (
     <section className="py-6 sm:py-12 dark:bg-gray-800 dark:text-gray-100">
